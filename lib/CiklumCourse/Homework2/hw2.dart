@@ -10,9 +10,30 @@ class TodoList extends StatefulWidget {
 }
 
 class TodoListState extends State<TodoList> {
+
+  List<Todo> todoList;
+  //todo count items active & deleted
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        appBar: AppBar(title: Text("Todo list")),
+        body: _buildList(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _addNewItem(context),
+          tooltip: 'Add',
+          child: Icon(Icons.add),
+        )
+    );
+  }
+
+  Widget _buildList() {
+    return ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(title: Text(items[index]));
+        }
+    );
   }
 }
 
