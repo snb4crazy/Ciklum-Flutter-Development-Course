@@ -15,3 +15,25 @@ class TodoListState extends State<TodoList> {
     return Container();
   }
 }
+
+class Todo {
+
+  //todo decide what Class Properties are needed
+  //todo implement autoincrement
+  int _id;
+  String _description;
+
+  Todo (this._description);
+
+  void set description(String description) {
+    if(description.length <= 20) {
+      this._description = description;
+    } else {
+      this._description = '${description.substring(0, 20)}...';
+    }
+  }
+
+  String get description {
+    return this._description;
+  }
+}
