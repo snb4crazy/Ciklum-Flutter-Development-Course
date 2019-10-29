@@ -66,7 +66,28 @@ class TodoListState extends State<TodoList> {
     return ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(title: Text(items[index]));
+          return ListTile(
+              title: Text(
+                  items[index]
+              ),
+            trailing: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(Icons.delete, color: Colors.red),
+                  onTap: () {
+                    setState(() {
+                      if (_textFieldController.text.length > 0) {
+                        items.remove(_textFieldController.text);
+                        _textFieldController.clear();
+                      }
+                    });
+                  },
+                )
+              ],
+            ),
+          );
         }
     );
   }
