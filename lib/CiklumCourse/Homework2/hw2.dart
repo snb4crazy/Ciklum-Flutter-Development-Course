@@ -27,6 +27,41 @@ class TodoListState extends State<TodoList> {
     );
   }
 
+  _addNewItem(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Write new action todo'),
+            content: TextField(
+              controller: _textFieldController,
+              decoration: InputDecoration(hintText: 'Todo action'),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('CANCEL'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text('Add'),
+                onPressed: () {
+                  setState(() {
+                    if (_textFieldController.text.length > 0) {
+                      items.add(_textFieldController.text);
+                      _textFieldController.clear();
+                    }
+                  });
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        }
+    );
+  }
+
   Widget _buildList() {
     return ListView.builder(
         itemCount: items.length,
@@ -58,3 +93,5 @@ class Todo {
     return this._description;
   }
 }
+
+TextEditingController _textFieldController = TextEditingController();
