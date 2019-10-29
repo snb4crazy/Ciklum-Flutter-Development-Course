@@ -1,22 +1,23 @@
 /*
-Google Code Lab - First Flutter App part 1 & 2
+Google Code Lab 3 - Basic Chat
  */
 
 import 'package:flutter/material.dart';
 import 'package:code_labs/GoogleCodeLabs/FirstApp/random_words.dart';
 
 
-void main() => runApp(GoogleCodeLab2());
+void main() => runApp(GoogleCodeLab3Chat());
 
-class GoogleCodeLab2 extends StatelessWidget {
+class GoogleCodeLab3Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Startup Name Generator',
-      theme: ThemeData(
-        primaryColor: Colors.white,
+      title: 'Friendlychat',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text("Friendlychat"),
+        ),
       ),
-      home: RandomWords(),
     );
   }
 }
