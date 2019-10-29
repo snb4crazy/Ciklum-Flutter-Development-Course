@@ -27,6 +27,14 @@ class ChatScreen extends StatefulWidget {
 class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   final TextEditingController _textController = new TextEditingController();
   final List<ChatMessage> _messages = <ChatMessage>[];
+
+  @override
+  void dispose() {
+    for (ChatMessage message in _messages)
+      message.animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -49,7 +57,6 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
           ),
         ],
       ),
-
     );
   }
 
@@ -58,7 +65,7 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     ChatMessage message = new ChatMessage(
       text: text,
         animationController: new AnimationController(
-          duration: new Duration(milliseconds: 700),
+          duration: new Duration(milliseconds: 1000),
           vsync: this,
         ),
     );
@@ -96,6 +103,8 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   }
 }
 
+//todo Create a fade-in animation effect by wrapping the Container in a
+// FadeTransition widget instead of a SizeTransition
 class ChatMessage extends StatelessWidget {
   ChatMessage({this.text, this.animationController});
   final AnimationController animationController;
