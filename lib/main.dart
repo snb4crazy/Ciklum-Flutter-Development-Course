@@ -12,7 +12,6 @@ void main() => runApp(GoogleCodeLab2());
 class GoogleCodeLab2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random();
     return MaterialApp(
       title: 'Google Code Lab #2',
       home: Scaffold(
@@ -20,9 +19,22 @@ class GoogleCodeLab2 extends StatelessWidget {
           title: const Text('Welcome to Flutter'),
         ),
         body: Center(
-          child: Text(wordPair.asPascalCase),
+          child: RandomWords(),
         ),
       ),
     );
   }
+}
+
+class RandomWordsState extends State<RandomWords> {
+  @override
+  Widget build(BuildContext context) {
+    final WordPair wordPair = WordPair.random();
+    return Text(wordPair.asPascalCase);
+  }
+}
+
+class RandomWords extends StatefulWidget {
+  @override
+  RandomWordsState createState() => RandomWordsState();
 }
