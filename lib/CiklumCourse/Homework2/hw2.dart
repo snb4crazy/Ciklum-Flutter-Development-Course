@@ -99,6 +99,7 @@ class Todo {
   //todo implement autoincrement
   int _id;
   String _description;
+  bool _isCompleted;
 
   Todo (this._description);
 
@@ -112,6 +113,15 @@ class Todo {
 
   String get description {
     return this._description;
+  }
+
+  bool get isCompleted {
+    //call in setState
+    return this._isCompleted;
+  }
+
+  void set isCompleted (isChecked) {
+    this._isCompleted = isChecked;
   }
 }
 
