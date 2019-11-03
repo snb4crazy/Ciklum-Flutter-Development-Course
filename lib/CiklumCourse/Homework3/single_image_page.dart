@@ -1,8 +1,11 @@
 /*
 Unused Class for testing only
+Testing Homework:
+    2. Show an image from the internet by URL.
  */
 
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class SingleImagePage extends StatefulWidget {
   SingleImagePage({Key key, this.title}) : super(key: key);
@@ -21,16 +24,17 @@ class _SingleImagePageState extends State<SingleImagePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset(
-                'resources/cats/1.jpg',
-                fit: BoxFit.cover)
-          ],
+      body: Stack(
+        children: [
+          Center(child: CircularProgressIndicator()),
+          Center(
+            child: FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: 'https://ae01.alicdn.com/kf/HTB1q3WgbIUrBKNjSZPxq6x00pXae/Funny-Dog-Cat-Costumes-High-School-Uniform-Cosplay-Suit-Pet-Apparel-Halloween-Christmas-Clothes-For-Puppy.jpg_q50.jpg',
+            ),
+          ),
+        ],
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    ); // This trailing comma makes auto-formatting nicer for build methods.
   }
 }
