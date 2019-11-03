@@ -42,6 +42,10 @@ class GridImagePage extends StatelessWidget {
     );
   }
 
+  _showImageFromInternet() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +117,12 @@ class GridImagePage extends StatelessWidget {
               }),
             ),
           ],
-        )
+        ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Add Photo',
+        child: Icon(Icons.add),
+        onPressed: _showImageFromInternet,
+      ),
     );
   }
 }
