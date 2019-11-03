@@ -8,6 +8,18 @@ Image widget Init:
       assets:
       - resources/cats/1.jpg
 
+4. To Open image details page when a user taps on the image in the list:
+  - InkWell(
+      onTap: () {},
+      child: Image.asset(
+        'resources/cats/1.jpg',
+        fit: BoxFit.cover)
+      )
+  - Ink.image(
+      image: AssetImage('resources/cats/2.jpeg'),
+      fit: BoxFit.cover,
+      child: InkWell(onTap: () {},),
+      )
 
  */
 
@@ -80,21 +92,36 @@ class GridImagePage extends StatelessWidget {
           mainAxisSpacing: 5,
           crossAxisSpacing: 5,
           children: <Widget>[
-            Image.asset(
-                'images/1.jpg',
-                fit: BoxFit.cover),
-            Image.asset(
-                'images/2.jpeg',
-                fit: BoxFit.cover),
-            Image.asset(
-                'images/3.jpg',
-                fit: BoxFit.cover),
-            Image.asset(
-                'images/4.jpg',
-                fit: BoxFit.cover),
-            Image.asset(
-                'images/5.jpeg',
-                fit: BoxFit.cover)
+            InkWell(
+                onTap: () {},
+                child: Image.asset(
+                    'images/1.jpg',
+                    fit: BoxFit.cover)
+            ),
+            InkWell(
+                onTap: () {},
+                child: Image.asset(
+                    'images/2.jpg',
+                    fit: BoxFit.cover)
+            ),
+            InkWell(
+                onTap: () {},
+                child: Image.asset(
+                    'images/3.jpg',
+                    fit: BoxFit.cover)
+            ),
+            InkWell(
+                onTap: () {},
+                child: Image.asset(
+                    'images/4.jpg',
+                    fit: BoxFit.cover)
+            ),
+            InkWell(
+                onTap: () {},
+                child: Image.asset(
+                    'images/5.jpg',
+                    fit: BoxFit.cover)
+            ),
           ],
         )
     );
