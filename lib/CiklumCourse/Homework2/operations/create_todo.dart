@@ -3,7 +3,6 @@ Create Todo Operation
  */
 
 import 'package:flutter/material.dart';
-
 import 'package:code_labs/CiklumCourse/Homework2/models/todo_task.dart';
 
 class NewTodoDialog extends StatelessWidget {
@@ -13,15 +12,17 @@ class NewTodoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('New todo'),
+      title: Text('Write new action todo'),
       content: TextField(
         controller: controller,
+        decoration: InputDecoration(hintText: 'Type Todo Description'),
         autofocus: true,
       ),
       actions: <Widget>[
         FlatButton(
           child: Text('Cancel'),
           onPressed: () {
+            controller.clear();
             Navigator.of(context).pop();
           },
         ),
