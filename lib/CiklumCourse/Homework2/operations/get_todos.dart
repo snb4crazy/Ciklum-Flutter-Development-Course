@@ -45,6 +45,7 @@ class _TodoBaseScreenState extends State<TodoBaseScreen> {
         onTodoToggle: _toggleTodo,
       ),
       floatingActionButton: FloatingActionButton(
+        tooltip: 'Add',
         child: Icon(Icons.add),
         onPressed: _addTodo,
       ),
