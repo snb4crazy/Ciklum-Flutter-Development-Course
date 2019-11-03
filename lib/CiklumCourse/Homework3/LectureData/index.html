@@ -1,0 +1,269 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Lecture 3 - Actions Flow</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="3"
+                  title="Lecture 3 - Actions Flow"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="App lifetime" duration="0">
+        <p>In lecture 2, TODO app provides a simple interface for adding text as user notes.<br>Generally, it is version 1.0 of application. It means, that now it is a releasable product and can be published to App Store or Google Play.</p>
+<p>But, what next?</p>
+<p>An app can have a different future:</p>
+<ol type="1">
+<li>The developer can leave the app as it is and after some time app just will die. Sounds sad, but it is a common situation in a case when the app does not meet expectations of app&#39;s owner or users.</li>
+<li>The developer can fix bugs. There is a simple truth: &#34;Apps without bugs does not exist, bugs can be unfounded yet&#34;. Sometimes, bugfixing is a critical step in app lifetime and developer should be ready for it. We can name it as a supportive way.</li>
+<li>The developer can add new features. Good app grows because users want to have more.</li>
+</ol>
+<p>Come back to TODO app.</p>
+<p>As a user, I want to add a picture to my notes.</p>
+<p>One notice. Each lesson in this module we create an app from scratch. That&#39;s why don&#39;t work with code from the previous lecture - we create a new project. It is a very important step in learning.</p>
+<p>This user story looks real at our current step. Previously we had worked with <a href="https://api.flutter.dev/flutter/widgets/Icon-class.html" target="_blank">Icon</a>. It is a cool widget for adding prepared system icons. But we cannot add our images using this widget.</p>
+<p>Create a new app!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Image widget" duration="0">
+        <p>Let&#39;s look closer on <a href="https://api.flutter.dev/flutter/widgets/Image-class.html" target="_blank">Image widget</a> from the standard library.<br>In the documentation, we can find different variants for init <code>Image</code> widget:</p>
+<ol type="1">
+<li>File <code>Image.file</code> - should understand that it is not a file from the project. It is a file on the device and as a route, we should use URL to this file.</li>
+<li>Network <code>Image.network</code> - for showing an image from URL.</li>
+<li>Asset <code>Image.asset</code> - it is a variant which we will use in the current project.</li>
+</ol>
+<p>What is an image asset?</p>
+<p>It is an image resource (.png, .jpg, etc) which is used in the project.</p>
+<p>For initializing image with asset use - <code>Image.asset(&#39;path&#39;)</code>. Remove generated code and add Image widget to <code>MyHomePage</code>:</p>
+<pre><code>class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() =&gt; _MyHomePageState();
+}
+
+class _MyHomePageState extends State&lt;MyHomePage&gt; {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: &lt;Widget&gt;[
+            Image.asset(
+              &#39;resources/cats/1.jpg&#39;,
+             fit: BoxFit.cover)
+          ],
+        ),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+</code></pre>
+<p>Everything looks correct but... we don&#39;t see our image when run app. The reason - we didn&#39;t notify our project that <code>resources/cats/1.jpg</code> is the asset.</p>
+<p>About fit parameter in image and different variant for it you can find in the documentation.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Pubspec" duration="0">
+        <p>Now our target is set for our picture asset status in our project.</p>
+<p>For it, we need <a href="https://dart.dev/tools/pub/pubspec" target="_blank">pubspec.yaml file</a>. This file contains dependencies information in the project. It can be third-party libraries, fonts, images, etc.<br>Now we add information about our image file:</p>
+<ol type="1">
+<li>Find <code>flutter</code> section.</li>
+<li>In the generated file you can find <code>assets</code> section.</li>
+<li>Add image file path in a format which we use for image widget.<pre><code>flutter:
+
+assets:
+- resources/cats/1.jpg
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Show image" duration="0">
+        <p>Now we should just rebuild project.</p>
+<p class="image-container"><img alt="Cat image" src="img/d4a5b01e97b6000e.png"></p>
+<p>Add information about all prepared pictures in <code>pubspec.yaml</code> file and check that after changing the asset path in <code>Image</code> widget, a new image is shown on the display.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="GridView" duration="0">
+        <p>At the current step, we have a layout with one image. Our next step is creating a layout for all prepared pictures. In the previous lecture, we worked with <code>ListView</code>. It can be useful if we want to have only one picture in the row, but now we want to show at least 2 per row.</p>
+<p>For this case, Flutter provides standard widget - <a href="https://api.flutter.dev/flutter/widgets/GridView-class.html" target="_blank">ListView</a>. This widget is very same to <code>ListView</code>. In the documentation, we can find useful <a href="https://flutter.dev/docs/cookbook/lists/grid-lists" target="_blank">tutorial</a> for creating our list.</p>
+<pre><code>  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: GridView.count(
+        crossAxisCount: 2,
+        padding: EdgeInsets.all(5),
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
+        children: &lt;Widget&gt;[
+          Image.asset(
+              &#39;resources/cats/1.jpg&#39;,
+             fit: BoxFit.cover),
+             Image.asset(
+              &#39;resources/cats/2.jpeg&#39;,
+             fit: BoxFit.cover),
+             Image.asset(
+              &#39;resources/cats/3.jpg&#39;,
+             fit: BoxFit.cover),
+             Image.asset(
+              &#39;resources/cats/4.jpg&#39;,
+             fit: BoxFit.cover),
+             Image.asset(
+              &#39;resources/cats/5.jpeg&#39;,
+             fit: BoxFit.cover)
+        ],
+      )
+    );
+  }
+</code></pre>
+<p class="image-container"><img alt="Cats image" src="img/833d2201e0f1f.png"></p>
+<p>And now we can move this widget to separate file <code>main_page.dart</code></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Image details screen" duration="0">
+        <p>We start by showing one picture and move to show a list of them.<br>Next step is moving back to showing one picture because we have a story:</p>
+<p>As a user, I want to see image details screen.</p>
+<p>It is a page with simple UI - just our image. But it is a separate widget with <code>MainPage</code>, that&#39;s why we create new file <code>image_details_page.dart</code>. Here, we just rewrite our code for showing one image on the screen.</p>
+<p>Just control paddings and other UI elements for showing image in the best way for the user. Do not forget about <code>Scaffold</code></p>
+<pre><code>class ImageDetailsPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(&#39;Details&#39;),),
+      body: Center(
+        child: Image.asset(&#39;resources/cats/1.jpg&#39;),)
+    );
+  }
+}
+</code></pre>
+<p>Now, you can show <code>ImageDetailsPage</code> as the main page in the app via adding import in the main file and using it instead of <code>MainPage</code></p>
+<p>And the last step we should add an image as a property to this screen. We initialize <code>Image</code> widget with asset info. Asset path is a string. That&#39;s why we add <code>String</code> property to the widget class and add it as a parameter in <code>init</code>.</p>
+<pre><code>class ImageDetailsPage extends StatelessWidget {
+
+  final String assetPath;
+
+  ImageDetailsPage({
+    Key key, @required this.assetPath
+    }) : assert(assetPath != null),
+    super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(&#39;Details&#39;),),
+      body: Center(
+        child: Image.asset(this.assetPath),)
+    );
+  }
+}
+</code></pre>
+<p>Now <code>ImageDetailsPage</code> can be created as <code>ImageDetailsPage(assetPath: &#39;resources/cats/1.jpg&#39;)</code>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Tap and InkWell" duration="0">
+        <p>The last but not the least task. Open image details page when a user taps on the image in the list.</p>
+<p>As a variant, we can use <a href="https://api.flutter.dev/flutter/material/GridTile-class.html" target="_blank">GridTile</a> for our picture cells in <code>GridView</code>. It provides <code>onTap</code> for handle user tap.</p>
+<p>Another variant is using <a href="https://api.flutter.dev/flutter/material/InkWell-class.html" target="_blank">InkWell</a>. It is a widget for handling user tap.</p>
+<pre><code>InkWell(
+  onTap: () {},
+  child: Image.asset(
+    &#39;resources/cats/1.jpg&#39;,
+    fit: BoxFit.cover)
+  )
+</code></pre>
+<p>Now we can handle user tap but we don&#39;t have any visual representation of an action. For adding smooth animation when tap we can use <a href="https://api.flutter.dev/flutter/material/Ink-class.html" target="_blank">Ink widged</a>. There is a special constructor for this widget for showing the image. As a parameter, we see the image, but it is not <code>Image</code> widget which we used. We need <a href="https://api.flutter.dev/flutter/painting/AssetImage-class.html" target="_blank">AssetImage</a>.</p>
+<pre><code>Ink.image(
+  image: AssetImage(&#39;resources/cats/2.jpeg&#39;),
+  fit: BoxFit.cover,
+  child: InkWell(onTap: () {},),
+  )
+</code></pre>
+<p>Just rewrite all pictures with this widget for action handling.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Navigation" duration="0">
+        <p>Last step.</p>
+<p>We should open a new page when tapping on the image. Flutter provides <a href="https://api.flutter.dev/flutter/widgets/Navigator-class.html" target="_blank">Navigator widget</a> for it. In <a href="https://flutter.dev/docs/cookbook/navigation/navigation-basics" target="_blank">documentation</a> we can find information about different actions in navigation. Now <code>push</code> and <code>pop</code> are interesting for us. We have a stack of pages in app and <code>push</code> is adding a new page to the top and <code>pop</code> is removing the top page from the stack. In this case, we name our pages as <a href="https://api.flutter.dev/flutter/material/MaterialPageRoute-class.html" target="_blank">MaterialPageRoute</a>.<br>And or details screen has a constructor with asset parameter. So, we can <a href="https://flutter.dev/docs/cookbook/navigation/passing-data" target="_blank">send data from one screen to another</a>. Let&#39;s connect all this moment together.</p>
+<pre><code>Ink.image(
+  image: AssetImage(&#39;resources/cats/1.jpg&#39;),
+  fit: BoxFit.cover,
+  child: InkWell(onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =&gt; ImageDetailsPage(assetPath: &#39;resources/cats/1.jpg&#39;)
+        )
+      );
+    }),
+  ),
+</code></pre>
+<p>Do the same for all pictures. <code>Pop</code> action works automatically.</p>
+<p>The app is ready!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Homework" duration="0">
+        <p>There are 3 tasks for homework.</p>
+<ol type="1">
+<li>During the lesson, we use static GridView for showing content. But from the previous lesson, we know about <code>builder</code>. Your task is show &#34;Add&#34; button on the list screen and add a new image by a tap on the button.</li>
+<li>Show an image from the internet by URL.</li>
+<li>Write a title for app bar with a custom font.</li>
+</ol>
+<p>Good luck!</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
