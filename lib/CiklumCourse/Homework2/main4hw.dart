@@ -22,9 +22,7 @@ for creating more friendly item’s UI.
  */
 
 import 'package:flutter/material.dart';
-import 'hw2.dart';
-//after replacing main.dart - use full path
-//import 'CiklumCourse/Homework2/hw2.dart';
+import 'package:code_labs/CiklumCourse/Homework2/operations/get_todos.dart';
 
 void main() => runApp(Hw2BaseApp());
 
@@ -37,7 +35,7 @@ class Hw2BaseApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TodoList(),
+      home: TodoBaseScreen(),
     );
   }
 }
