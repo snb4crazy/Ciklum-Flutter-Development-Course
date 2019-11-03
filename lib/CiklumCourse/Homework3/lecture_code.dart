@@ -20,7 +20,21 @@ Image widget Init:
       fit: BoxFit.cover,
       child: InkWell(onTap: () {},),
       )
+5. Navigation - open a new page when tapping on the image.
+    Navigator widget: push is adding a new page to the top
+    and pop is removing the top page from the stack,
+    details screen has a constructor with asset parameter.
+    So, we can send data from one screen to another.
 
+
+Homework:
+
+1. During the lesson, we use static GridView for showing content.
+    But from the previous lesson, we know about builder.
+    Your task is show "Add" button on the list screen and
+    add a new image by a tap on the button.
+2. Show an image from the internet by URL.
+3. Write a title for app bar with a custom font.
  */
 
 import 'package:flutter/material.dart';
@@ -92,35 +106,65 @@ class GridImagePage extends StatelessWidget {
           mainAxisSpacing: 5,
           crossAxisSpacing: 5,
           children: <Widget>[
-            InkWell(
-                onTap: () {},
-                child: Image.asset(
-                    'images/1.jpg',
-                    fit: BoxFit.cover)
+            Ink.image(
+              image: AssetImage('images/1.jpg'),
+              fit: BoxFit.cover,
+              child: InkWell(onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ImageDetailsPage(assetPath: 'images/1.jpg')
+                    )
+                );
+              }),
             ),
-            InkWell(
-                onTap: () {},
-                child: Image.asset(
-                    'images/2.jpg',
-                    fit: BoxFit.cover)
+            Ink.image(
+              image: AssetImage('images/2.jpg'),
+              fit: BoxFit.cover,
+              child: InkWell(onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ImageDetailsPage(assetPath: 'images/2.jpg')
+                    )
+                );
+              }),
             ),
-            InkWell(
-                onTap: () {},
-                child: Image.asset(
-                    'images/3.jpg',
-                    fit: BoxFit.cover)
+            Ink.image(
+              image: AssetImage('images/3.jpg'),
+              fit: BoxFit.cover,
+              child: InkWell(onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ImageDetailsPage(assetPath: 'images/3.jpg')
+                    )
+                );
+              }),
             ),
-            InkWell(
-                onTap: () {},
-                child: Image.asset(
-                    'images/4.jpg',
-                    fit: BoxFit.cover)
+            Ink.image(
+              image: AssetImage('images/4.jpg'),
+              fit: BoxFit.cover,
+              child: InkWell(onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ImageDetailsPage(assetPath: 'images/4.jpg')
+                    )
+                );
+              }),
             ),
-            InkWell(
-                onTap: () {},
-                child: Image.asset(
-                    'images/5.jpg',
-                    fit: BoxFit.cover)
+            Ink.image(
+              image: AssetImage('images/5.jpg'),
+              fit: BoxFit.cover,
+              child: InkWell(onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ImageDetailsPage(assetPath: 'images/5.jpg')
+                    )
+                );
+              }),
             ),
           ],
         )
