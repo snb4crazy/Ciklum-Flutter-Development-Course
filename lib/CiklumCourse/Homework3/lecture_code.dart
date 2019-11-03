@@ -64,3 +64,39 @@ class ImageDetailsPage extends StatelessWidget {
   }
 }
 
+class GridImagePage extends StatelessWidget {
+
+  final String title = 'Grid View';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(this.title),
+        ),
+        body: GridView.count(
+          crossAxisCount: 2,
+          padding: EdgeInsets.all(5),
+          mainAxisSpacing: 5,
+          crossAxisSpacing: 5,
+          children: <Widget>[
+            Image.asset(
+                'images/1.jpg',
+                fit: BoxFit.cover),
+            Image.asset(
+                'images/2.jpeg',
+                fit: BoxFit.cover),
+            Image.asset(
+                'images/3.jpg',
+                fit: BoxFit.cover),
+            Image.asset(
+                'images/4.jpg',
+                fit: BoxFit.cover),
+            Image.asset(
+                'images/5.jpeg',
+                fit: BoxFit.cover)
+          ],
+        )
+    );
+  }
+}
