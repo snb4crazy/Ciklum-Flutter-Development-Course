@@ -1,0 +1,271 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Lecture 4 - Network and Futures</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="4"
+                  title="Lecture 4 - Network and Futures"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <p>In this lecture we will implement an application which communicate with <a href="https://openweathermap.org/api" target="_blank">Weather API</a> and display weather for Kharkiv region.</p>
+<p>After this lecture you will learn:</p>
+<ol type="1">
+<li>How to fetch data from internet</li>
+<li>How to parse JSON and convert it to Flutter models</li>
+<li>What is Future</li>
+<li>How to display images from internet</li>
+<li>Bonus - device rotation</li>
+</ol>
+<p>Expected design:</p>
+<p class="image-container"><img alt="design" src="img/1356a65e5ba85ef6.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prepare data model" duration="0">
+        <h2 is-upgraded>1. JSON overview</h2>
+<p>We will get weather data from <code>openweathermap.org</code> using next url -&gt; https://api.openweathermap.org/data/2.5/weather?q=Kharkiv&amp;units=metric&amp;APPID=1ea55013049215603ece3fee22806975</p>
+<p>It contains a lot of data, but I left only needed:</p>
+<pre><code>{
+    &#34;weather&#34;: [
+        {
+            ...
+            &#34;icon&#34;: &#34;01d&#34;
+        }
+    ],
+    &#34;main&#34;: {
+        &#34;temp&#34;: 31,
+        ...
+    },
+    ...
+    &#34;name&#34;: &#34;Kharkiv&#34;,
+}
+</code></pre>
+<h2 is-upgraded>2. Prepare model for this JSON</h2>
+<p>Let translate given JSON to next model:</p>
+<pre><code>class Weather {
+  final int temperature;
+  final String locationName;
+  final String iconUrl;
+
+  Weather(this.temperature, this.locationName, this.iconUrl);
+}
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Build fist layout based on Mock data" duration="0">
+        <p>Let build a widget that will contain <code>Weather</code> data and render it:</p>
+<pre><code>class WeatherContainer extends StatelessWidget {
+  final Weather weather;
+
+  WeatherContainer({Key key, @required this.weather})
+      : assert(weather != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: &lt;Widget&gt;[
+        Text(
+          &#39;${weather.locationName} - ${weather.temperature} °C&#39;,
+          style: Theme.of(context).textTheme.display1,
+          textAlign: TextAlign.center,
+        ),
+        Image.network(weather.iconUrl),
+      ],
+    );
+  }
+}
+</code></pre>
+<p>And let display it using mock data:</p>
+<pre><code>void main() =&gt; runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    final weather =
+        Weather(30, &#39;Kharkiv&#39;, &#39;http://openweathermap.org/img/wn/10d@2x.png&#39;);
+    return MaterialApp(
+      title: &#39;Flutter Demo&#39;,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(&#39;Weather Overview&#39;),
+        ),
+        body: Center(
+          child: WeatherContainer(
+            weather: weather,
+          ),
+        ),
+      ),
+    );
+  }
+}
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Fetch data from the internet" duration="0">
+        <p>Fetching data from the internet is necessary for most apps. Luckily, Dart and Flutter provide tools, such as the http package, for this type of work.</p>
+<p>This recipe uses the following steps:</p>
+<ol type="1">
+<li>Add the <code>http</code> package.</li>
+<li>Make a network request using the <code>http</code> package.</li>
+<li>Convert the response into a custom Dart object.</li>
+<li>Fetch and display the data with Flutter.</li>
+</ol>
+<h2 is-upgraded>1. Add the http package</h2>
+<p>The <a href="https://pub.dev/packages/http" target="_blank">http</a> package provides the simplest way to fetch data from the internet.</p>
+<p>To install the http package, add it to the dependencies section of the <code>pubspec.yaml</code>.</p>
+<pre><code>dependencies:
+  http: 0.12.0+2
+</code></pre>
+<h2 is-upgraded>2. Make a network request and parse response</h2>
+<p>In this example, fetch a current weather from the <a href="https://openweathermap.org/api" target="_blank">OpenWeather</a> using the <code>http.get()</code> method.</p>
+<pre><code>class WeatherProvider {
+  Future&lt;http.Response&gt; getCurrentWeather() async {
+    final response = await http.get(
+        &#39;https://api.openweathermap.org/data/2.5/weather?q=Kharkiv&amp;units=metric&amp;APPID=1ea55013049215603ece3fee22806975&#39;);
+    return response;
+  }
+</code></pre>
+<p>The <code>http.get()</code> method returns a <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html" target="_blank">Future</a> that contains a <code>Response</code>.</p>
+<ul>
+<li><code>Future</code> is a core Dart class for working with async operations. A Future object represents a potential value or error that will be available at some time in the future.</li>
+<li>The <code>http.Response</code> class contains the data received from a successful http call.</li>
+<li>The <code>async</code> and <code>await</code> keywords provide a declarative way to define asynchronous functions and use their results. Remember these two basic guidelines when using <code>async</code> and <code>await</code>:<br><br><ul>
+<li>To define an async function, add <code>async</code> before the function body.</li>
+<li>The <code>await</code> keyword works only in <code>async</code> functions.</li>
+</ul>
+</li>
+</ul>
+<p>An <code>async</code> function runs synchronously until the first <code>await</code> keyword. This means that within an <code>async</code> function body, all synchronous code before the first <code>await</code> keyword executes immediately.</p>
+<h2 is-upgraded>3. Convert the response into a custom Dart object</h2>
+<p>While it&#39;s easy to make a network request, working with a raw <code>Future&lt;http.Response&gt;</code> isn&#39;t very convenient. To make your life easier, convert the <code>http.Response</code> into a Dart object.<br>First, create a <code>Weather</code> class that contains the data from the network request. It includes a special constructor that creates a <code>Weather</code> from JSON. Let extend out <code>Weather</code> class with this constructor:</p>
+<pre><code>class Weather {
+  final int temperature;
+  final String locationName;
+  final String iconUrl;
+
+  Weather(this.temperature, this.locationName, this.iconUrl);
+
+  Weather.fromJson(Map&lt;String, dynamic&gt; json)
+      : temperature = json[&#39;main&#39;][&#39;temp&#39;],
+        locationName = json[&#39;name&#39;],
+        iconUrl = _generateIconUrl(json[&#39;weather&#39;][0][&#39;icon&#39;]);
+
+  static String _generateIconUrl(String icon) {
+    return &#39;https://openweathermap.org/img/wn/$icon@2x.png&#39;;
+  }
+}
+</code></pre>
+<h3 is-upgraded>Convert the http.Response to a Weather</h3>
+<p>Now, use the following steps to update the <code>getCurrentWeather()</code> function to return a <code>Future&lt;Weather&gt;</code>:</p>
+<ol type="1">
+<li>Convert the response body into a JSON <code>Map</code> with the <code>dart:convert</code> package.</li>
+<li>If the server returns an &#34;OK&#34; response with a status code of 200, convert the JSON <code>Map</code> into a <code>Weather</code> using the <code>fromJson()</code> constructor.</li>
+<li>If the server returns an unexpected response, throw an error.<pre><code>class WeatherProvider {
+Future&lt;Weather&gt; getCurrentWeather() async {
+final response = await http.get(
+    &#39;https://api.openweathermap.org/data/2.5/weather?q=Kharkiv&amp;units=metric&amp;APPID=1ea55013049215603ece3fee22806975&#39;);
+if (response.statusCode == 200) {
+  return Weather.fromJson(json.decode(response.body));
+} else {
+  throw Exception(&#39;Failed to load weather data&#39;);
+}
+}
+}
+</code></pre>
+</li>
+</ol>
+<p>Hooray! Now you&#39;ve got a function that fetches a weather data from the internet.</p>
+<h2 is-upgraded>4. Fetch and display the data</h2>
+<p>To fetch the data and display it on screen, use the <a href="https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html" target="_blank">FutureBuilder</a> widget. The <code>FutureBuilder</code> widget comes with Flutter and makes it easy to work with async data sources.</p>
+<p>You must provide two parameters:</p>
+<ol type="1">
+<li>The <code>Future</code> you want to work with. In this case, call the <code>getCurrentWeather()</code> function.</li>
+<li>A builder function that tells Flutter what to render, depending on the state of the Future: loading, success, or error.<pre><code>class WeatherOverview extends StatelessWidget {
+final _weatherProvider = WeatherProvider();
+
+@override
+Widget build(BuildContext context) {
+return Scaffold(
+  appBar: AppBar(
+    title: Text(&#34;Weather Overview&#34;),
+  ),
+  body: Center(
+    child: FutureBuilder&lt;Weather&gt;(
+      future: _weatherProvider.getCurrentWeather(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return WeatherContainer(weather: snapshot.data);
+        } else if (snapshot.hasError) {
+          return Text(&#34;${snapshot.error}&#34;);
+        }
+        return CircularProgressIndicator();
+      },
+    ),
+  ),
+);
+}
+}
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="One more thing. Device rotations!" duration="0">
+        <p>Let me introduce a widget that can handle it - <a href="https://api.flutter.dev/flutter/widgets/OrientationBuilder-class.html" target="_blank">OrientationBuilder</a></p>
+<pre><code>OrientationBuilder(
+      builder: (context, orientation) {
+        if (orientation == Orientation.portrait) {
+          return Text(&#39;portrait&#39;);
+        } else {
+          return Text(&#39;lanscape&#39;);
+        }
+      },
+    );
+</code></pre>
+<p>And your homework will extend <code>WeatherContainer</code> widget and render it in landscape orientation:<br><img alt="homework" src="img/ab2260cfdcf6081a.png"></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

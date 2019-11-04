@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2019-08-23T17:14:51+03:00",
+  "id": "4",
+  "duration": 0,
+  "title": "Lecture 4 - Network and Futures",
+  "summary": "Flutter lecture #4",
+  "source": "lecture4.md",
+  "theme": "",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "tutorial"
+  ],
+  "tags": [
+    "dart"
+  ],
+  "url": "4"
+}
