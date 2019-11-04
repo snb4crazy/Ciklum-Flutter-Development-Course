@@ -22,6 +22,20 @@ class Homework4BaseApp extends StatelessWidget {
 
   final _weatherProvider = WeatherProvider();
 
+  _getFutureBuilder () {
+    return FutureBuilder<Weather>(
+      future: _weatherProvider.getCurrentWeather(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return WeatherContainer(weather: snapshot.data);
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return CircularProgressIndicator();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,17 +43,7 @@ class Homework4BaseApp extends StatelessWidget {
         title: Text("Weather Overview"),
       ),
       body: Center(
-        child: FutureBuilder<Weather>(
-          future: _weatherProvider.getCurrentWeather(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return WeatherContainer(weather: snapshot.data);
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            return CircularProgressIndicator();
-          },
-        ),
+        child: _getFutureBuilder (),
       ),
     );
   }
