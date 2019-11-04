@@ -3,7 +3,7 @@ Main File for the Project
  */
 
 import 'package:flutter/material.dart';
-import 'package:code_labs/CiklumCourse/Homework3/grid_image_page.dart';
+import 'package:code_labs/CiklumCourse/Homework3/Pages/grid_image_page.dart';
 
 void main() => runApp(Hw3BaseApp());
 

@@ -3,7 +3,7 @@ Main Page of the app - List View of Images
  */
 
 import 'package:flutter/material.dart';
-import 'package:code_labs/CiklumCourse/Homework3/image_details_page.dart';
+import 'package:code_labs/CiklumCourse/Homework3/Pages/image_details_page.dart';
 //todo pick one of these two:
 import 'package:image_picker_modern/image_picker_modern.dart';
 import 'package:image_picker/image_picker.dart';
