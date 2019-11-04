@@ -5,7 +5,7 @@ Main Dart File for homework #4: Network and Futures. Plan:
 2. Parse JSON and convert it to Flutter models
 3. What is Future
 4. Display images from internet
-5. Homework - device rotation (full screen for horizontal)
+5. Homework - device rotation (full screen for horizontal?)
 
 Weather data from openweathermap.org using url:
    https://api.openweathermap.org/data/2.5/weather?q=Kharkiv&units=metric&APPID=1ea55013049215603ece3fee22806975
