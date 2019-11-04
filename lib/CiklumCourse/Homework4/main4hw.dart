@@ -21,6 +21,7 @@ void main() => runApp(Homework4BaseApp());
 class Homework4BaseApp extends StatelessWidget {
 
   final _weatherProvider = WeatherProvider();
+  final _title = "Weather Overview";
 
   _getFutureBuilder () {
     return FutureBuilder<Weather>(
@@ -36,12 +37,16 @@ class Homework4BaseApp extends StatelessWidget {
     );
   }
 
+  _getAppBar () {
+    return AppBar(
+      title: Text(this._title),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Weather Overview"),
-      ),
+      appBar: _getAppBar(),
       body: Center(
         child: _getFutureBuilder (),
       ),
@@ -56,8 +61,7 @@ class WeatherContainer extends StatelessWidget {
       : assert(weather != null),
         super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
+  _getPortraitView (context) {
     return Column(
       children: <Widget>[
         Text(
@@ -67,6 +71,48 @@ class WeatherContainer extends StatelessWidget {
         ),
         Image.network(weather.iconUrl),
       ],
+    );
+  }
+
+  _getLandscapeView (context) {
+    return Row (
+      //Positions children near the start/end/center/spaceBetween/spaceEvenly
+      mainAxisAlignment: MainAxisAlignment.end,
+      //positions children on their cross axes (for Row - vertical): start/end/center/stretch
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Column(
+          children: <Widget>[
+            Text(
+              '${weather.locationName}',
+              style: Theme.of(context).textTheme.display1,
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              '${weather.temperature} °C',
+              style: Theme.of(context).textTheme.display1,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            Image.network(weather.iconUrl),
+          ],
+        ),
+    ],
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        if (orientation == Orientation.portrait) {
+          return _getPortraitView(context);
+        } else {
+          return _getLandscapeView(context);
+        }
+      },
     );
   }
 }
