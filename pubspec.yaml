@@ -29,6 +29,7 @@ dependencies:
   json_serializable: ^2.0.2
   transparent_image: ^0.1.0
   image_picker_modern: ^0.4.12
+  image_picker: ^0.4.10
 
 
 dev_dependencies:
