@@ -61,6 +61,8 @@ class WeatherContainer extends StatelessWidget {
       : assert(weather != null),
         super(key: key);
 
+  //todo refactoring: Orientation Views to Separate Class
+
   _getPortraitView (context) {
     return Column(
       children: <Widget>[
@@ -105,6 +107,10 @@ class WeatherContainer extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+
+    //todo use MediaQuery as a better solution
+    var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+
     return OrientationBuilder(
       builder: (context, orientation) {
         if (orientation == Orientation.portrait) {
