@@ -14,28 +14,31 @@ Weather data from openweathermap.org using url:
 
 import 'package:flutter/material.dart';
 import 'package:code_labs/CiklumCourse/Homework4/Models/weather.dart';
+import 'package:code_labs/CiklumCourse/Homework4/Providers/weather_provider.dart';
 
 void main() => runApp(Homework4BaseApp());
 
 class Homework4BaseApp extends StatelessWidget {
-// This widget is the root of your application.
+
+  final _weatherProvider = WeatherProvider();
+
   @override
   Widget build(BuildContext context) {
-    final weather =
-    Weather(30, 'Kharkiv', 'http://openweathermap.org/img/wn/10d@2x.png');
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Weather Overview"),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Weather Overview'),
-        ),
-        body: Center(
-          child: WeatherContainer(
-            weather: weather,
-          ),
+      body: Center(
+        child: FutureBuilder<Weather>(
+          future: _weatherProvider.getCurrentWeather(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return WeatherContainer(weather: snapshot.data);
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            return CircularProgressIndicator();
+          },
         ),
       ),
     );

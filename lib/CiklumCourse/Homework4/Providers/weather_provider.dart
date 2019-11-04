@@ -15,6 +15,7 @@ class WeatherProvider {
     final response = await http.get(this.weatherUrl);
     final statusCode = response.statusCode;
     final responseBody = response.body;
+    //todo process most common API failed requests
     if (statusCode == 200) {
       return Weather.fromJson(json.decode(responseBody));
     } else {
