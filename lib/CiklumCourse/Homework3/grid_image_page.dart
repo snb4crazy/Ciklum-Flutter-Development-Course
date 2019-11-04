@@ -4,8 +4,14 @@ Main Page of the app - List View of Images
 
 import 'package:flutter/material.dart';
 import 'package:code_labs/CiklumCourse/Homework3/image_details_page.dart';
+//todo pick one of these two:
+import 'package:image_picker_modern/image_picker_modern.dart';
+import 'package:image_picker/image_picker.dart';
 
 class GridImagePage extends StatelessWidget {
+
+  //todo migrate to StatefulWidget
+  //todo integrate image picker with a button
 
   final String title = 'Grid View';
 
@@ -120,7 +126,7 @@ class GridImagePage extends StatelessWidget {
         ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Add Photo',
-        child: Icon(Icons.add),
+        child: Icon(Icons.add_a_photo),
         onPressed: _showImageFromInternet,
       ),
     );
