@@ -80,7 +80,12 @@ class UserContainer extends StatelessWidget {
           style: Theme.of(context).textTheme.display1,
           textAlign: TextAlign.center,
         ),
-
+        //testing fake distance
+        Text(
+          '${user.name} in in ${user.getDistance()} kilometers from you',
+          style: Theme.of(context).textTheme.display1,
+          textAlign: TextAlign.center,
+        ),
       ],
     );;
   }
