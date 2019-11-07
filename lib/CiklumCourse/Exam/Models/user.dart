@@ -9,11 +9,15 @@ class User {
   final String name;
   final String imageUrl;
   final int latitude;
-  final int longtitude;
+  final int longitude;
 
-  User(this.name, this.imageUrl, this.latitude, this.longtitude);
+  User(this.name, this.imageUrl, this.latitude, this.longitude);
 
-  //todo User fromJSON converstion
+  User.fromJson(Map<String, dynamic> json)
+      : name = json['results']['name'] ['first'] + ' ' + json['results']['name'] ['last'],
+        imageUrl = json['results']['picture'] ['large'],
+        latitude = json['results']['location'] ['coordinates'] ['latitude'],
+        longitude = json['results']['location'] ['coordinates'] ['longitude'];
 
   //todo method calc geoposition by lat/long
 
