@@ -8,6 +8,7 @@ Data needed: Image, Name, GPS coordinates (?)
 import 'package:latlong/latlong.dart';
 
 class User {
+
   final String name;
   final String imageUrl;
   final double latitude;
@@ -33,7 +34,4 @@ class User {
 
     return km;
   }
-
-  //todo method calc distance from phone to user
-
 }
