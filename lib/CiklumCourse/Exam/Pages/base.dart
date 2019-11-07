@@ -75,13 +75,17 @@ class RandomUserPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           //todo replace icons with buttons
           children: [
-            Icon (
-              //todo implement tapping
-              Icons.refresh,
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                /* todo get new user */
+              },
             ),
-            //todo implement tapping
-            Icon (
-              Icons.skip_next,
+            IconButton(
+              icon: Icon(Icons.skip_next),
+              onPressed: () {
+                /* todo redirect to details */
+              },
             ),
           ],
         ),
