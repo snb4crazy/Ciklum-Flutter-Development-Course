@@ -4,16 +4,15 @@ randomuser.me
  */
 
 import 'package:code_labs/CiklumCourse/Exam/Models/user.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class WeatherProvider {
+class UserProvider {
 
-  final weatherUrl = 'https://randomuser.me/api/';
+  final getUserUrl = 'https://randomuser.me/api/';
 
-  Future<User> getCurrentWeather() async {
-    final response = await http.get(this.weatherUrl);
+  Future<User> getNewUser() async {
+    final response = await http.get(this.getUserUrl);
     final statusCode = response.statusCode;
     final responseBody = response.body;
     //todo process most common API failed requests
